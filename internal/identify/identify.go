@@ -4,9 +4,11 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"strconv"
 
 	"github.com/stashapp/stash/pkg/logger"
 	"github.com/stashapp/stash/pkg/models"
+	"github.com/stashapp/stash/pkg/plugin/common/log"
 	"github.com/stashapp/stash/pkg/scene"
 	"github.com/stashapp/stash/pkg/utils"
 )
@@ -133,7 +135,7 @@ func (t *SceneIdentifier) getSceneUpdater(ctx context.Context, s *models.Scene, 
 		}
 	}
 
-	ret.PerformerIDs, err = rel.performers(ignoreMale)
+	ret.PerformerIDs, err = rel.performers(ctx, ignoreMale)
 	if err != nil {
 		return nil, err
 	}
@@ -160,6 +162,25 @@ func (t *SceneIdentifier) getSceneUpdater(ctx context.Context, s *models.Scene, 
 		ret.CoverImage, err = rel.cover(ctx)
 		if err != nil {
 			return nil, err
+		}
+	}
+
+	if studioID == nil {
+		studioID = &s.StudioID.Int64
+	}
+	ret.Movies, err = rel.movies(ctx, studioID)
+	if err != nil {
+		return nil, err
+	}
+
+	var idx int
+	if ret.Movies != nil {
+		// hack: assume same scene index for all returned movies
+		if err != nil {
+			idx, err = strconv.Atoi(*result.result.Movies[0].SceneIndex)
+			log.Warn("failed to parse scene index %v", result.result.Movies[0].SceneIndex)
+		} else {
+			ret.SceneIndex = idx
 		}
 	}
 

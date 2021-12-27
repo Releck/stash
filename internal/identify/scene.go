@@ -51,12 +51,44 @@ func (g sceneRelationships) studio() (*int64, error) {
 	return nil, nil
 }
 
-func (g sceneRelationships) performers(ignoreMale bool) ([]int, error) {
+func (g sceneRelationships) movies(ctx context.Context, studioID *int64) ([]models.Movie, error) {
+	fieldStrategy := g.fieldOptions["movies"]
+	createMissing := fieldStrategy != nil && utils.IsTrue(fieldStrategy.CreateMissing)
+	if fieldStrategy.Strategy.String() == "IGNORE" {
+		return nil, nil
+
+	}
+
+	scraped := g.result.result.Movies
+
+	if scraped == nil {
+		return nil, nil
+	}
+
+	var movies []models.Movie
+
+	for _, m := range scraped {
+		// pass studioID in to workaround nil IDs in embedded Movie
+		movie, err := getMovie(ctx, g.repo, m, createMissing, studioID)
+		if err != nil {
+			return nil, err
+		}
+		movies = append(movies, *movie)
+
+	}
+	return movies, nil
+}
+
+func (g sceneRelationships) performers(ctx context.Context, ignoreMale bool) ([]int, error) {
 	fieldStrategy := g.fieldOptions["performers"]
 	scraped := g.result.result.Performers
 
 	// just check if ignored
 	if len(scraped) == 0 || !shouldSetSingleValueField(fieldStrategy, false) {
+		return nil, nil
+	}
+
+	if len(scraped) == 0 && fieldStrategy.Strategy == models.IdentifyFieldStrategyOverwrite {
 		return nil, nil
 	}
 
@@ -88,6 +120,16 @@ func (g sceneRelationships) performers(ignoreMale bool) ([]int, error) {
 		performerID, err := getPerformerID(endpoint, repo, p, createMissing)
 		if err != nil {
 			return nil, err
+		}
+
+		err = createPerformerImage(ctx, repo, p, *performerID)
+		if err != nil {
+			log.Warn("error creating performer image", err)
+		}
+
+		err = createPerformerTags(ctx, repo, p, *performerID)
+		if err != nil {
+			log.Warn("error creating performer tags", err)
 		}
 
 		if performerID != nil {

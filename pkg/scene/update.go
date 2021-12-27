@@ -30,6 +30,8 @@ type UpdateSet struct {
 	StashIDs []models.StashID
 	// Not set if nil. Set to []byte{} to clear existing
 	CoverImage []byte
+	Movies []models.Movie
+	SceneIndex int
 }
 
 // IsEmpty returns true if there is nothing to update.
@@ -41,7 +43,8 @@ func (u *UpdateSet) IsEmpty() bool {
 		u.PerformerIDs == nil &&
 		u.TagIDs == nil &&
 		u.StashIDs == nil &&
-		u.CoverImage == nil
+		u.CoverImage == nil &&
+		u.Movies == nil
 }
 
 // Update updates a scene by updating the fields in the Partial field, then
@@ -78,6 +81,21 @@ func (u *UpdateSet) Update(qb models.SceneWriter, screenshotSetter ScreenshotSet
 	if u.StashIDs != nil {
 		if err := qb.UpdateStashIDs(u.ID, u.StashIDs); err != nil {
 			return nil, fmt.Errorf("error updating scene stash_ids: %w", err)
+		}
+	}
+
+	if u.Movies != nil {
+		var mscenes []models.MoviesScenes
+		for _, m := range u.Movies {
+			mscenes = append(mscenes, models.MoviesScenes{
+				MovieID: m.ID,
+				SceneID: u.ID,
+				SceneIndex: sql.NullInt64{Int64: int64(u.SceneIndex), Valid: true},
+			})
+		}
+
+		if err := qb.UpdateMovies(u.ID, mscenes); err != nil {
+			return nil, fmt.Errorf("error updating movie IDs: %w", err)
 		}
 	}
 
