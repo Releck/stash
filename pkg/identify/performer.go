@@ -1,6 +1,7 @@
 package identify
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"strconv"
@@ -24,6 +25,56 @@ func getPerformerID(endpoint string, r models.Repository, p *models.ScrapedPerfo
 	}
 
 	return nil, nil
+}
+
+func createPerformerImage(ctx context.Context, r models.Repository, p *models.ScrapedPerformer, performerID int) (error) {
+	if p.Image != nil {
+		performerImage, err := utils.ReadImageFromURL(ctx, *p.Image)
+		if err != nil {
+			return fmt.Errorf("error reading performer image: %w", err)
+		}
+		if len(performerImage) > 0 {
+			err = r.Performer().UpdateImage(performerID, performerImage)
+			if err != nil {
+				return fmt.Errorf("error updating performer image: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+func createPerformerTags(ctx context.Context, r models.Repository, p *models.ScrapedPerformer, performerID int) (error) {
+	var newTags []int
+	var tID int
+	var err error
+	var newTag *models.Tag
+	for _, tag := range p.Tags {
+		err = nil
+		if tag.StoredID != nil {
+			tID, err = strconv.Atoi(*tag.StoredID)
+			if err == nil {
+				newTag = &models.Tag{
+					ID: tID,
+					Name: tag.Name,
+				}
+			}
+		} else {
+			newTag, err = r.Tag().Create(*models.NewTag(tag.Name))
+			if err != nil {
+				return fmt.Errorf("error creating tag %v: %v", tag.Name, err)
+			}
+		}
+		if err == nil {
+			newTags = append(newTags, newTag.ID)
+		}
+	}
+	if len(newTags) > 0 {
+		err = r.Performer().UpdateTags(performerID, newTags)
+		if err != nil {
+			return fmt.Errorf("error updating performer tags: %v", err)
+		}
+	}
+	return nil
 }
 
 func createMissingPerformer(endpoint string, r models.Repository, p *models.ScrapedPerformer) (*int, error) {

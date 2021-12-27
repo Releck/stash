@@ -8,19 +8,19 @@ import (
 )
 
 type Movie struct {
-	ID        int             `db:"id" json:"id"`
-	Checksum  string          `db:"checksum" json:"checksum"`
-	Name      sql.NullString  `db:"name" json:"name"`
-	Aliases   sql.NullString  `db:"aliases" json:"aliases"`
-	Duration  sql.NullInt64   `db:"duration" json:"duration"`
-	Date      SQLiteDate      `db:"date" json:"date"`
-	Rating    sql.NullInt64   `db:"rating" json:"rating"`
-	StudioID  sql.NullInt64   `db:"studio_id,omitempty" json:"studio_id"`
-	Director  sql.NullString  `db:"director" json:"director"`
-	Synopsis  sql.NullString  `db:"synopsis" json:"synopsis"`
-	URL       sql.NullString  `db:"url" json:"url"`
-	CreatedAt SQLiteTimestamp `db:"created_at" json:"created_at"`
-	UpdatedAt SQLiteTimestamp `db:"updated_at" json:"updated_at"`
+	ID         int             `db:"id" json:"id"`
+	Checksum   string          `db:"checksum" json:"checksum"`
+	Name       sql.NullString  `db:"name" json:"name"`
+	Aliases    sql.NullString  `db:"aliases" json:"aliases"`
+	Duration   sql.NullInt64   `db:"duration" json:"duration"`
+	Date       SQLiteDate      `db:"date" json:"date"`
+	Rating     sql.NullInt64   `db:"rating" json:"rating"`
+	StudioID   sql.NullInt64   `db:"studio_id,omitempty" json:"studio_id"`
+	Director   sql.NullString  `db:"director" json:"director"`
+	Synopsis   sql.NullString  `db:"synopsis" json:"synopsis"`
+	URL        sql.NullString  `db:"url" json:"url"`
+	CreatedAt  SQLiteTimestamp `db:"created_at" json:"created_at"`
+	UpdatedAt  SQLiteTimestamp `db:"updated_at" json:"updated_at"`
 }
 
 type MoviePartial struct {

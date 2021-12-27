@@ -15,6 +15,7 @@ type ScrapedMovie {
   front_image: String
   """This should be a base64 encoded data URL"""
   back_image: String
+  scene_index: String
 }
 
 input ScrapedMovieInput {

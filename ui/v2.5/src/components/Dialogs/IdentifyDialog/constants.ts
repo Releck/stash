@@ -16,6 +16,7 @@ export const sceneFields = [
   "studio",
   "performers",
   "tags",
+  "movies",
   "stash_ids",
 ] as const;
 export type SceneField = typeof sceneFields[number];
@@ -24,4 +25,5 @@ export const multiValueSceneFields: SceneField[] = [
   "studio",
   "performers",
   "tags",
+  "movies",
 ];
