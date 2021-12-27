@@ -80,7 +80,7 @@ func getEverySceneJSON(ctx context.Context) []byte {
 			VideoLength:  uint(sceneModel.Duration.Float64),
 			ThumbnailURL: builder.GetScreenshotURL(sceneModel.UpdatedAt.Timestamp),
 			VideoPreview: builder.GetStreamPreviewURL(),
-			VideoJsonURL: builder.GetDeoVRURL(),
+			VideoJsonURL: builder.GetDeoVRURL(false),
 		})
 	}
 	var container []DeoContainer
