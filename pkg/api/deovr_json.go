@@ -11,13 +11,14 @@ import (
 	"github.com/stashapp/stash/pkg/scene"
 )
 
-type MultipleVideoJsonResponse struct {
-	Scenes []SceneLibrary `json:"scenes"`
-}
 
 type SceneLibrary struct {
-	Name string         `json:"name"`
-	List []SlimDeoScene `json:"list"`
+	Scenes []DeoContainer   `json:"scenes"`
+}
+
+type DeoContainer struct {
+	Name string           `json:"name"`
+	List []SlimDeoScene   `json:"list"`
 }
 
 type SlimDeoScene struct {
@@ -82,11 +83,9 @@ func getEverySceneJSON(ctx context.Context) []byte {
 			VideoJsonURL: builder.GetDeoVRURL(),
 		})
 	}
-
-	library := SceneLibrary{
-		Name: "Scenes",
-		List: list,
-	}
+	var container []DeoContainer
+	container = append(container, DeoContainer{Name: "Scenes", List: list})
+	library := SceneLibrary{Scenes: container}
 
 	jsonBytes, err := json.Marshal(library)
 	if err != nil {
