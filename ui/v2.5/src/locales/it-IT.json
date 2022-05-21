@@ -107,6 +107,7 @@
     },
     "temp_disable": "Disabilita temporaneamente…",
     "temp_enable": "Abilita temporaneamente…",
+    "unset": "Rimuovere Impostazione",
     "use_default": "Usa predefinito",
     "view_random": "Guarda Casuale"
   },
@@ -120,6 +121,7 @@
   "birth_year": "Anno di Nascita",
   "birthdate": "Compleanno",
   "bitrate": "Bit Rate",
+  "captions": "Sottotitoli",
   "career_length": "Lunghezza Carriera",
   "component_tagger": {
     "config": {
@@ -279,6 +281,10 @@
       "number_of_parallel_task_for_scan_generation_head": "Numero delle attività parallele per scansione/creazione",
       "parallel_scan_head": "Scansione/Creazione Parallela",
       "preview_generation": "Creazione Anteprime",
+      "python_path": {
+        "description": "Posizione dell'eseguibile python. Usato per gli script degli scraper e plugin. Se lasciato vuoto, verrà determinato dall'ambiente",
+        "heading": "Percorso Python"
+      },
       "scraper_user_agent": "Scraper User Agent",
       "scraper_user_agent_desc": "Stringa User-Agent usata durante le richieste http scrape",
       "scrapers_path": {
@@ -444,9 +450,22 @@
         "description": "Offset in millisecondi per gli script interattivi.",
         "heading": "Funscript Offset (ms)"
       },
+      "handy_connection": {
+        "connect": "Connetti",
+        "server_offset": {
+          "heading": "Offset del Server"
+        },
+        "status": {
+          "heading": "Stato Connessione Handy"
+        },
+        "sync": "Sincronizza"
+      },
       "handy_connection_key": {
         "description": "Chiave di connessione Handy per l'uso con scene interattive. Impostare questa chiave permetterà a Stash di condividere le informazioni della scena attuale con handyfeeling.com",
         "heading": "Chiave Connessione Handy"
+      },
+      "image_lightbox": {
+        "heading": "Immagine Lightbox"
       },
       "images": {
         "heading": "Immagini",
@@ -514,9 +533,13 @@
           "toggle_sound": "Abilita suono"
         }
       },
+      "scroll_attempts_before_change": {
+        "description": "Numero di tentativi di scorrimento prima di passare al prossimo/precedente oggetto. Si applica solo al modo di scorrimento Pan Y.",
+        "heading": "Tentativi di scorrimento prima della transizione"
+      },
       "slideshow_delay": {
         "description": "La presentazione è disponibile nelle gallerie quando in modalità muro",
-        "heading": "Ritardo Presentazione"
+        "heading": "Ritardo Presentazione (secondi)"
       },
       "title": "Interfaccia Utente"
     }
@@ -693,7 +716,9 @@
     "scale": "Scala",
     "warmth": "Temperatura Colore"
   },
+  "empty_server": "Aggiungi alcune scene al tuo server per vedere suggerimenti in questa pagina.",
   "ethnicity": "Etnia",
+  "existing_value": "valore esistente",
   "eye_color": "Colore Occhi",
   "fake_tits": "Tette Finte",
   "false": "Falso",
@@ -721,9 +746,19 @@
     "TRANSGENDER_MALE": "Uomo Transgender"
   },
   "hair_color": "Colore Capelli",
+  "handy_connection_status": {
+    "connecting": "In connessione",
+    "disconnected": "Disconnesso",
+    "error": "Errore di connessione a Handy",
+    "missing": "Mancante",
+    "ready": "Pronto",
+    "syncing": "Sincronizzando col server",
+    "uploading": "Script in upload"
+  },
   "hasMarkers": "Ha Marcatori",
   "height": "Altezza",
   "help": "Aiuto",
+  "ignore_auto_tag": "Ignora Auto Tag",
   "image": "Immagine",
   "image_count": "Numero Immagini",
   "images": "Immagini",
@@ -825,6 +860,11 @@
   "queue": "Coda",
   "random": "Casuale",
   "rating": "Classif.",
+  "recently_added_performers": "Attori Aggiunti Recentemente",
+  "recently_added_studios": "Studio Aggiunti Recentemente",
+  "recently_released_galleries": "Gallerie Distribuite Recentemente",
+  "recently_released_movies": "Film Distribuiti Recentemente",
+  "recently_released_scenes": "Video Distribuiti Recentemente",
   "resolution": "Risoluzione",
   "scene": "Scena",
   "sceneTagger": "Tagger Scena",
@@ -928,6 +968,7 @@
     "submission_failed": "Invio fallito",
     "submission_successful": "Invio riuscito"
   },
+  "statistics": "Statistiche",
   "stats": {
     "image_size": "Dimensione immagini",
     "scenes_duration": "Lunghezza scene",
@@ -969,6 +1010,7 @@
   "updated_at": "Aggiornato Al",
   "url": "URL",
   "videos": "Video",
+  "view_all": "Vedi Tutto",
   "weight": "Peso",
   "years_old": "anni"
 }
